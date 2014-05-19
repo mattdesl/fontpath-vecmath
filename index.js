@@ -18,20 +18,17 @@ var tmpVec = new Vector3();
  * 
  * @param  {Number} font      the font object which defines resolution, size, and units_per_em
  * @param  {Number} glyph     the glyph object from fontpath output
- * @param  {Number} fontSize  the desired font size, or defaults to font.size
+ * @param  {Number} fontSize  the desired font size in points, or defaults to font.size
  * @param  {Number} x         the desired x position in pixel space, defaults to 0
  * @param  {Number} y         the desired y position in pixel space, defaults to 0
  * @param  {Matrix3} outMatrix the output matrix to use
  * @return {Matrix3}           the output matrix
  */
 module.exports.toGlyphMatrix3 = function(font, glyph, fontSize, x, y, outMatrix) {
-	fontSize = fontSize||fontSize===0 ? fontSize : font.size;
 	x = x||0;
 	y = y||0;
 
-	var pxSize = util.pointsToPixels(fontSize, font.resolution);
-
-	var pointScale = (32/font.size) * pxSize / font.units_per_EM;
+	var pointScale = util.getPtScale(font, fontSize);
 
 	if (!outMatrix)
 		outMatrix = new Matrix3();
@@ -39,6 +36,5 @@ module.exports.toGlyphMatrix3 = function(font, glyph, fontSize, x, y, outMatrix)
 		outMatrix.idt();
 	outMatrix.translate( tmpVec.set(x, y) );
 	outMatrix.scale( tmpVec.set(pointScale, -pointScale) );
-	outMatrix.translate( tmpVec.set(-glyph.hbx, 0) );
 	return outMatrix;
 }
