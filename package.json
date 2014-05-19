@@ -1,6 +1,6 @@
 {
   "name": "fontpath-vecmath",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vector utils for fontpath",
   "main": "index.js",
   "scripts": {
